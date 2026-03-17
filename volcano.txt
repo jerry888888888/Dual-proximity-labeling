@@ -1,0 +1,42 @@
+library(EnhancedVolcano)
+
+up_count <- sum(data3$status == "up", na.rm = TRUE)
+down_count <- sum(data3$status == "down", na.rm = TRUE)
+library(ggrepel)
+library(ggrepel)
+
+p <- ggplot(data3, aes(logFC, -log10(adj.P.Val))) +
+  geom_point(aes(color = status), size = 1.5) +
+  geom_vline(xintercept = c(log2(1/2), log2(2)), linetype = "dashed") +
+  geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
+  theme_bw() +
+  theme(
+    axis.title = element_text(size = 16),     
+    axis.text = element_text(size = 12),      
+    legend.text = element_text(size = 12),    
+    legend.title = element_text(size = 14)    
+  ) +
+  scale_color_manual(
+    values = c('up' = '#FF5733', 'stable' = 'grey', 'down' = '#21A2DD'),
+    name = "status"                   
+  ) +
+  xlab('Log2FC (Adipose_Cre+/Cre-)') +
+  ylab('-Log10(pvalue)') +
+  xlim(c(-7, 16)) +
+  ylim(c(0, 5)) +
+  annotate("text", x = 6, y = 5, label = paste0("enriched:", up_count), color = "#FF5733", size = 10, fontface = "bold") +
+  geom_label_repel(
+    data = label_data,
+    aes(label = Symbol),
+    color = label_data$label_color,
+    fill = "white",
+    size = 10,
+    fontface = "bold",
+    box.padding = 0.5,
+    max.overlaps = Inf,
+    show.legend = FALSE
+  )
+
+print(p)
+
+

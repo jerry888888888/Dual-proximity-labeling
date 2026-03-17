@@ -1,0 +1,13 @@
+
+library(grid)
+library(ggplot2)
+library(VennDiagram)
+library(ggvenn)
+
+a <- list(`ER` = cleaned_A,
+          `Golgi` = cleaned_B) 
+p1 <- ggvenn(a, show_elements = F,show_percentage = FALSE, fill_color = c("#0072B2","#E64B35" ),
+             label_sep = "\n", stroke_color = "white", stroke_size = 1.5, set_name_size = 8,
+             text_size = 8, auto_scale = T)
+p1
+
